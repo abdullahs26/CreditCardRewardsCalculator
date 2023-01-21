@@ -21,14 +21,14 @@ public class RewardsCalculatorService {
 
     private int rewardPoints;
 
-    public HashMap<String, String> calcRewards(String transactionList) throws JsonProcessingException {
+    public LinkedHashMap<String, String> calcRewards(String transactionList) throws JsonProcessingException {
         sportCheckAmount = 0;
         timHortonsAmount = 0;
         subwayAmount = 0;
         otherTransactionsAmount = 0;
         rewardPoints = 0;
 
-        HashMap<String, String> result = new HashMap<>();
+        LinkedHashMap<String, String> result = new LinkedHashMap<>();
 
         ObjectMapper mapper = new ObjectMapper();
         JsonNode node = mapper.readTree(transactionList);
@@ -53,36 +53,26 @@ public class RewardsCalculatorService {
             }
         }
 
-        // Convert to dollars from cents
-        sportCheckAmount /= 100.0;
-        timHortonsAmount /= 100.0;
-        subwayAmount /= 100.0;
-        otherTransactionsAmount /= 100.0;
-
-
-        while (sportCheckAmount > 75 && timHortonsAmount > 25 && subwayAmount > 25) {
+        while (sportCheckAmount > 7500 && timHortonsAmount > 2500 && subwayAmount > 2500) {
             rewardPoints += 500;
-            sportCheckAmount -= 75;
-            timHortonsAmount -= 25;
-            subwayAmount -= 25;
+            sportCheckAmount -= 7500;
+            timHortonsAmount -= 2500;
+            subwayAmount -= 2500;
         }
-
-        while (sportCheckAmount > 75 && timHortonsAmount > 25) {
+        while (sportCheckAmount > 7500 && timHortonsAmount > 2500) {
             rewardPoints += 300;
-            sportCheckAmount -= 75;
-            timHortonsAmount -= 25;
+            sportCheckAmount -= 7500;
+            timHortonsAmount -= 2500;
         }
-
-        while (sportCheckAmount > 25 && timHortonsAmount > 10 && subwayAmount > 10) {
+        while (sportCheckAmount > 2500 && timHortonsAmount > 1000 && subwayAmount > 1000) {
             rewardPoints += 150;
-            sportCheckAmount -= 25;
-            timHortonsAmount -= 10;
-            subwayAmount -= 10;
+            sportCheckAmount -= 2500;
+            timHortonsAmount -= 1000;
+            subwayAmount -= 1000;
         }
-
-        while (sportCheckAmount > 20) {
+        while (sportCheckAmount > 2000) {
             rewardPoints += 75;
-            sportCheckAmount -= 20;
+            sportCheckAmount -= 2000;
         }
 
         int leftoverAmount = (int) (otherTransactionsAmount + sportCheckAmount + timHortonsAmount + subwayAmount);

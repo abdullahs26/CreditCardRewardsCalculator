@@ -5,7 +5,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
-import java.util.HashMap;
+import java.util.LinkedHashMap;
 
 @RestController
 public class RewardsCalculatorController {
@@ -13,7 +13,8 @@ public class RewardsCalculatorController {
     RewardsCalculatorService rewardsCalculatorService = new RewardsCalculatorService();
 
     @GetMapping("/calculate")
-    public HashMap<String, String> calculateRewards(@RequestBody String transactionList) throws JsonProcessingException {
+    public LinkedHashMap<String, String> calculateRewards(@RequestBody String transactionList)
+            throws JsonProcessingException {
 
         return rewardsCalculatorService.calcRewards(transactionList);
     }
