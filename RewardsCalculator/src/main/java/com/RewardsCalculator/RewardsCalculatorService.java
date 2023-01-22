@@ -25,8 +25,10 @@ public class RewardsCalculatorService {
 
     /**
      * This function takes the transaction list as input and returns the reward point calculation as output in a map.
+     * Note, Rules 3 and 5 are ignored because there will never be a case where using these rules will maximize points.
+     * Combination of other rules will always outperform Rules 3 and 5.
      * @param transactionList
-     * @return this Student's name.
+     * @return Map containing maximum rewards per transaction and maximum total rewards for the month.
      */
     public LinkedHashMap<String, String> calcRewards(String transactionList) throws JsonProcessingException {
         sportCheckAmount = 0;
