@@ -1,4 +1,4 @@
-package com.RewardsCalculator;
+package Service;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.core.type.TypeReference;

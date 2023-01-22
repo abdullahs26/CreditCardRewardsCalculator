@@ -1,5 +1,6 @@
-package com.RewardsCalculator;
+package Controller;
 
+import Service.RewardsCalculatorService;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestBody;
