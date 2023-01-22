@@ -12,7 +12,7 @@ public class RewardsCalculatorController {
 
     RewardsCalculatorService rewardsCalculatorService = new RewardsCalculatorService();
 
-    @GetMapping("/calculate")
+    @GetMapping("/calculatePoints")
     public LinkedHashMap<String, String> calculateRewards(@RequestBody String transactionList)
             throws JsonProcessingException {
 

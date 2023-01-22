@@ -66,28 +66,32 @@ public class RewardsCalculatorService {
             }
         }
         // Calculate maximum rewards based on how much was spent at each merchant.
+        // Loop to calculate points for Rule 1
         while (sportCheckAmount > 7500 && timHortonsAmount > 2500 && subwayAmount > 2500) {
             rewardPoints += 500;
             sportCheckAmount -= 7500;
             timHortonsAmount -= 2500;
             subwayAmount -= 2500;
         }
+        // Loop to calculate points for Rule 2
         while (sportCheckAmount > 7500 && timHortonsAmount > 2500) {
             rewardPoints += 300;
             sportCheckAmount -= 7500;
             timHortonsAmount -= 2500;
         }
+        // Loop to calculate points for Rule 4
         while (sportCheckAmount > 2500 && timHortonsAmount > 1000 && subwayAmount > 1000) {
             rewardPoints += 150;
             sportCheckAmount -= 2500;
             timHortonsAmount -= 1000;
             subwayAmount -= 1000;
         }
+        // Loop to calculate points for Rule 6
         while (sportCheckAmount > 2000) {
             rewardPoints += 75;
             sportCheckAmount -= 2000;
         }
-        // Add leftover to points
+        // Add leftover to points, Rule 7
         int leftoverAmount = (int) ((otherTransactionsAmount + sportCheckAmount + timHortonsAmount + subwayAmount)/ 100.0);
         rewardPoints += leftoverAmount;
         result.put("Total Rewards Points", Integer.toString(rewardPoints));
