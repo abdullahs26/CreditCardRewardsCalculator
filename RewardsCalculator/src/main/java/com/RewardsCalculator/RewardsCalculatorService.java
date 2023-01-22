@@ -2,7 +2,6 @@ package com.RewardsCalculator;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.core.type.TypeReference;
-import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.springframework.stereotype.Service;
 
@@ -13,12 +12,22 @@ import java.util.Set;
 @Service
 public class RewardsCalculatorService {
 
+    // Variable to store the amount spent at sportCheck
     private double sportCheckAmount;
+    // Variable to store the amount spent at Tim Hortons
     private double timHortonsAmount;
+    // Variable to store the amount spent at Subway
     private double subwayAmount;
+    // Variable to store the amount spent at any other merchants.
     private double otherTransactionsAmount;
+    // Variable to store total reward points across the transactions over the month.
     private int rewardPoints;
 
+    /**
+     * This function takes the transaction list as input and returns the reward point calculation as output in a map.
+     * @param transactionList
+     * @return this Student's name.
+     */
     public LinkedHashMap<String, String> calcRewards(String transactionList) throws JsonProcessingException {
         sportCheckAmount = 0;
         timHortonsAmount = 0;
@@ -29,25 +38,31 @@ public class RewardsCalculatorService {
 
         // Parse through input Transaction list
         ObjectMapper mapper = new ObjectMapper();
-        JsonNode node = mapper.readTree(transactionList);
         LinkedHashMap<String, Map<String, String>> transactionMap  = mapper.readValue(transactionList,
                 new TypeReference<LinkedHashMap<String, Map<String, String>>>(){});
         Set<String> keys = transactionMap.keySet();
         // Calculate total spent at each merchant.
         for (String key : keys) {
+            int transactionRewardPoints = 0;
             Map<String, String> currTransaction = transactionMap.get(key);
+            double currAmount = Double.parseDouble(currTransaction.get("amount_cents"));
 
             if (currTransaction.get("merchant_code").contains("sportcheck")) {
-                sportCheckAmount += Double.parseDouble(currTransaction.get("amount_cents"));
+                sportCheckAmount += currAmount;
+                transactionRewardPoints = (75 * (int) ((currAmount / 100.0) / 20));
+                result.put(key, String.valueOf(transactionRewardPoints));
             }
             else if (currTransaction.get("merchant_code").contains("tim_hortons")) {
-                timHortonsAmount += Double.parseDouble(currTransaction.get("amount_cents"));
+                timHortonsAmount += currAmount;
+                result.put(key, String.valueOf((int) (currAmount / 100.0)));
             }
             else if (currTransaction.get("merchant_code").contains("subway")) {
-                subwayAmount += Double.parseDouble(currTransaction.get("amount_cents"));
+                subwayAmount += currAmount;
+                result.put(key, String.valueOf((int) (currAmount / 100.0)));
             }
             else {
-                otherTransactionsAmount += Double.parseDouble(currTransaction.get("amount_cents"));
+                otherTransactionsAmount += currAmount;
+                result.put(key, String.valueOf((int) (currAmount / 100.0)));
             }
         }
         // Calculate maximum rewards based on how much was spent at each merchant.
