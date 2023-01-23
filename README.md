@@ -25,7 +25,13 @@ amount)
 
 Note, some rules combine multiple transactions to total a larger sum of points (eg. Rule 1 requires at least 3 transactions), in this solution rewards calculated at the transaction level are considered in isolation, but the total rewards for the month will utilize combinations of transactions to maximize points.
 
-Sample input:
+Sample input and output:
+
+T0 - T10 shows the maximum points per transaction and the last entry of the output shows the maximum points of all transactions listed.
+
+![alt text](https://github.com/abdullahs26/CreditCardRewardsCalculator/blob/main/SampleInputOutput.PNG)
+
+Input as text:
 
 {
 "T01": {"date": "2021-05-01", "merchant_code" : "sportcheck", "amount_cents": 21000},
