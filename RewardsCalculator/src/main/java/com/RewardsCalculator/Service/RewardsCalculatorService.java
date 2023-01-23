@@ -47,54 +47,59 @@ public class RewardsCalculatorService {
         for (String key : keys) {
             int transactionRewardPoints = 0;
             Map<String, String> currTransaction = transactionMap.get(key);
-            double currAmount = Double.parseDouble(currTransaction.get("amount_cents"));
+            double currAmount = Double.parseDouble(currTransaction.get("amount_cents")) / 100.0;
 
-            if (currTransaction.get("merchant_code").contains("sportcheck")) {
+            if (currTransaction.get("merchant_code").equals("sportcheck")) {
                 sportCheckAmount += currAmount;
-                transactionRewardPoints = (75 * (int) ((currAmount / 100.0) / 20));
+                transactionRewardPoints = (75 * (int) ((currAmount) / 20));
+                // Add leftover amount (Use Rule 7)
+                currAmount -= ((int) (currAmount / 20)) * 20;
+                if (currAmount > 0) {
+                    transactionRewardPoints += currAmount;
+                }
                 result.put(key, String.valueOf(transactionRewardPoints));
             }
-            else if (currTransaction.get("merchant_code").contains("tim_hortons")) {
+            else if (currTransaction.get("merchant_code").equals("tim_hortons")) {
                 timHortonsAmount += currAmount;
-                result.put(key, String.valueOf((int) (currAmount / 100.0)));
+                result.put(key, String.valueOf((int) (currAmount)));
             }
-            else if (currTransaction.get("merchant_code").contains("subway")) {
+            else if (currTransaction.get("merchant_code").equals("subway")) {
                 subwayAmount += currAmount;
-                result.put(key, String.valueOf((int) (currAmount / 100.0)));
+                result.put(key, String.valueOf((int) (currAmount)));
             }
             else {
                 otherTransactionsAmount += currAmount;
-                result.put(key, String.valueOf((int) (currAmount / 100.0)));
+                result.put(key, String.valueOf((int) (currAmount)));
             }
         }
         // Calculate maximum rewards based on how much was spent at each merchant.
         // Loop to calculate points for Rule 1
-        while (sportCheckAmount > 7500 && timHortonsAmount > 2500 && subwayAmount > 2500) {
+        while (sportCheckAmount > 75 && timHortonsAmount > 25 && subwayAmount > 25) {
             rewardPoints += 500;
-            sportCheckAmount -= 7500;
-            timHortonsAmount -= 2500;
-            subwayAmount -= 2500;
+            sportCheckAmount -= 75;
+            timHortonsAmount -= 25;
+            subwayAmount -= 25;
         }
         // Loop to calculate points for Rule 2
-        while (sportCheckAmount > 7500 && timHortonsAmount > 2500) {
+        while (sportCheckAmount > 75 && timHortonsAmount > 25) {
             rewardPoints += 300;
-            sportCheckAmount -= 7500;
-            timHortonsAmount -= 2500;
+            sportCheckAmount -= 75;
+            timHortonsAmount -= 25;
         }
         // Loop to calculate points for Rule 4
-        while (sportCheckAmount > 2500 && timHortonsAmount > 1000 && subwayAmount > 1000) {
+        while (sportCheckAmount > 25 && timHortonsAmount > 10 && subwayAmount > 10) {
             rewardPoints += 150;
-            sportCheckAmount -= 2500;
-            timHortonsAmount -= 1000;
-            subwayAmount -= 1000;
+            sportCheckAmount -= 25;
+            timHortonsAmount -= 10;
+            subwayAmount -= 10;
         }
         // Loop to calculate points for Rule 6
-        while (sportCheckAmount > 2000) {
+        while (sportCheckAmount > 20) {
             rewardPoints += 75;
-            sportCheckAmount -= 2000;
+            sportCheckAmount -= 20;
         }
         // Add leftover to points, Rule 7
-        int leftoverAmount = (int) ((otherTransactionsAmount + sportCheckAmount + timHortonsAmount + subwayAmount)/ 100.0);
+        int leftoverAmount = (int) ((otherTransactionsAmount + sportCheckAmount + timHortonsAmount + subwayAmount));
         rewardPoints += leftoverAmount;
         result.put("Total Rewards Points", Integer.toString(rewardPoints));
 
