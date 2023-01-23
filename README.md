@@ -18,6 +18,7 @@ and $10 spend at Subway
 
 ● Rule 5: 75 points for every $25 spend at Sport Check and $10 spend at Tim
 Hortons
+
 ● Rule 6: 75 point for every $20 spend at Sport Check
 
 ● Rule 7: 1 points for every $1 spend for all other purchases (including leftover
