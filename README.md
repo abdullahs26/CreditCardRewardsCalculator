@@ -31,7 +31,7 @@ T0 - T10 shows the maximum points per transaction and the last entry of the outp
 
 ![alt text](https://github.com/abdullahs26/CreditCardRewardsCalculator/blob/main/SampleInputOutput.PNG)
 
-Input as text:
+Sample Input as text (Input must be formatted in this way):
 
 {
 "T01": {"date": "2021-05-01", "merchant_code" : "sportcheck", "amount_cents": 21000},
